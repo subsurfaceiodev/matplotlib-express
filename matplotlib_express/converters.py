@@ -1,7 +1,10 @@
 import re
 
 
-def plotly_to_mpl_marker(marker_symbol: str):
+def plotly_to_mpl_marker(marker_symbol: str | None):
+    # TODO consider possible suffix 'open', 'dot', 'open-dot'
+    if not marker_symbol:
+        marker_symbol = 'circle'
     return {
         'circle': 'o', 'square': 's', 'diamond': 'D', 'cross': 'P', 'x': 'X', 'triangle-up': '^',
         'triangle-down': 'v', 'triangle-left': '<', 'triangle-right': '>', 'triangle-ne': None,
@@ -40,6 +43,8 @@ def _parse_plotly_dash(
 
 
 def plotly_to_mpl_linestyle(line_dash: str | None):
+    if not line_dash:
+        line_dash = 'solid'
     mapping = {
         'solid': 'solid',
         'dot': 'dotted',
@@ -48,17 +53,18 @@ def plotly_to_mpl_linestyle(line_dash: str | None):
         'dashdot': 'dashdot',
         'longdashdot': (0, (9, 2, 1, 2)),
     }
-    if line_dash and line_dash in mapping:
-        linestyle = mapping[line_dash]
-    elif line_dash and ',' in line_dash:
-        linestyle = _parse_plotly_dash(line_dash)
+    if line_dash in mapping:
+        return mapping[line_dash]
+    elif ',' in line_dash:
+        return _parse_plotly_dash(line_dash)
     else:
-        linestyle = None
-    return linestyle
+        return None
 
 
-def plotly_to_mpl_drawstyle(line_shape: str):
-    raise {
+def plotly_to_mpl_drawstyle(line_shape: str | None):
+    if not line_shape:
+        line_shape = 'linear'
+    return {
         'linear': 'default',
         'spline': None,
         'hv': 'steps-post',
