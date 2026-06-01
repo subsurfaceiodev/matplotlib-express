@@ -1,0 +1,18 @@
+[project]
+name = "matplotlib-express"
+version = "0.1.0"
+description = "plotly express functionality with matplotlib as the plotting backend"
+authors = [
+    { name = "subsurfaceiodev" },
+]
+
+dependencies = [
+    "plotly",
+    "matplotlib",
+    "mpltern"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=9.0.2",
+]
